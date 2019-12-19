@@ -1,0 +1,9 @@
+version: '3.5'
+services:
+  atlas-srv:
+    image: mmiklas/atlas-docker:v2.0.0
+    ports:
+      - "21002:21000"
+    volumes:
+      - "./atlas-application.properties:/apache-atlas-2.0.0/conf/atlas-application.properties"
+      - "./spline-meta-model.json:/apache-atlas-2.0.0/models/spline-meta-model.json"
