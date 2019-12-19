@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package za.co.absa.spline.sample.batch
+package com.epam.example.batch
 
+import com.epam.example.SparkApp
 import org.apache.spark.ml.classification.{LogisticRegression, OneVsRest, OneVsRestModel}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{StringIndexer, VectorAssembler}
 import org.apache.spark.sql.{DataFrame, SaveMode}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
-import za.co.absa.spline.sample.SparkApp
 
 object SampleJob4 extends SparkApp("Sample Job 4 Spark ML",
   conf=Seq(

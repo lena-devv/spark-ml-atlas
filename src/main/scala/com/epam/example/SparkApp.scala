@@ -1,4 +1,4 @@
-package za.co.absa.spline.sample
+package com.epam.example
 
 import org.apache.spark.sql.{SQLContext, SQLImplicits, SparkSession}
 
