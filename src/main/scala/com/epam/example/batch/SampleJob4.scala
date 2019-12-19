@@ -17,6 +17,7 @@
 package com.epam.example.batch
 
 import com.epam.example.SparkApp
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.classification.{LogisticRegression, OneVsRest, OneVsRestModel}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{StringIndexer, VectorAssembler}
@@ -24,7 +25,7 @@ import org.apache.spark.sql.{DataFrame, SaveMode}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 
-object SampleJob4 extends SparkApp("Sample Job 4 Spark ML",
+object SampleJob4 extends SparkApp("Sample Job 4 2 Spark ML",
   conf=Seq(
     ("spark.extraListeners", "com.hortonworks.spark.atlas.SparkAtlasEventTracker"),
     ("spark.sql.queryExecutionListeners", "com.hortonworks.spark.atlas.SparkAtlasEventTracker"),
@@ -34,7 +35,7 @@ object SampleJob4 extends SparkApp("Sample Job 4 Spark ML",
 
   // Initializing library to hook up to Apache Spark
 
-//  spark.sparkContext.addFile("atlas-application.properties")
+  spark.sparkContext.addFile("src/main/resources/atlas-application.properties")
 
   // A business logic of a spark job ...
 
@@ -60,9 +61,14 @@ object SampleJob4 extends SparkApp("Sample Job 4 Spark ML",
     .setFitIntercept(true)
   val ovrClassifier = new OneVsRest().setClassifier(classifier)
 
+  val pipeline = new Pipeline().setStages(Array(ovrClassifier))
   val oneVsRestModel = ovrClassifier.fit(trainDf)
+
   val modelPath = "data/results/batch/job4_results/model"
   oneVsRestModel.write.overwrite().save(modelPath)
+
+  val pipelinePath = "data/results/batch/job4_results/pipeline"
+  pipeline.write.overwrite().save(pipelinePath)
 
   val loadedOvrModel = OneVsRestModel.load(modelPath)
   val predictions = loadedOvrModel.transform(testDf)
