@@ -7,3 +7,4 @@ services:
     volumes:
       - "./atlas-application.properties:/apache-atlas-2.0.0/conf/atlas-application.properties"
       - "./spline-meta-model.json:/apache-atlas-2.0.0/models/spline-meta-model.json"
+      - "./1100-spark_model.json:/apache-atlas-2.0.0/models/1100-spark_model.json"
